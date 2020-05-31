@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -9,57 +10,66 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        try {
-            sendPOST("http://apapi.haditabatabaei.ir/tests/post/formdata");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         while (true) {
             String input = scanner.nextLine();
             String[] words = input.split(" ");
-//            if (!words[1].contains("http://")) {
-//                String protocol = "http://";
-//                words[1] = protocol.concat(words[1]);
-//            }
-            if (words.length == 2 && words[0].equals("jurl") ||words.length == 4 && words[3].equals("GET")) {
+            if (words.length == 2 && words[0].equals("jurl") || words.length == 4 && words[3].equals("GET") || words.length == 3 && words[1].equals("-i")) {
                 try {
-                    sendGET(words[1]);
+                    if (words[1].equals("-i"))
+                        sendGET(words[2], true);
+                    else sendGET(words[1], false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (words[2].equals("POST")) {
+                try {
+                    sendPOST(words[3]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
 
-
         }
-
     }
 
-    private static void sendGET(String url) throws IOException {
-        if (!url.contains("http://")) {
+    private static void sendGET(String url, boolean showHeader) throws IOException {
+        try {
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("User-Agent", "Mac_Catalina");
+            if (con.getResponseCode() != 200) {
+                int i = 0;
+                while (con.getHeaderField(i) != null && showHeader) {
+                    if (i != 0) System.out.print("\u001B[32m" + con.getHeaderFieldKey(i) + ": " + "\u001B[0m");
+                    System.out.println(con.getHeaderField(i));
+                    i++;
+                }
+            } else {
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                String inputLine;
+                int i = 0;
+                while (con.getHeaderField(i) != null && showHeader) {
+                    if (i != 0) System.out.print("\u001B[32m" + con.getHeaderFieldKey(i) + ": " + "\u001B[0m");
+                    System.out.println(con.getHeaderField(i));
+                    i++;
+                }
+                System.out.println();
+                while ((inputLine = in.readLine()) != null) {
+                    System.out.println(inputLine);
+                }
+                in.close();
+            }
+        } catch (MalformedURLException e) {
             String protocol = "http://";
             url = protocol.concat(url);
             System.out.println();
             System.out.println("HTTP/1.1 301 Moved Permanently\n");
-            System.out.println("Location : "+url+"/");
-            return;
+            System.out.println("\u001B[32m" + "Location : " + "\u001B[0m" + url + "/");
         }
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("User-Agent", "Mac_Catalina");
-        System.out.println("GET Response Code : " + con.getResponseCode());
-        if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                System.out.println(inputLine);
-            }
-            in.close();
-        } else {
-            System.out.println("GET request not worked");
-        }
-
     }
+
     private static void sendPOST(String url) throws IOException {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -68,7 +78,7 @@ public class Main {
         con.setRequestMethod("POST");
         con.setRequestProperty("User-Agent", "Mac_Catalina");
         con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        con.setRequestProperty("Content-Type","application/json");
+        con.setRequestProperty("Content-Type", "application/json");
 
         String postJsonData = "{}";
 
