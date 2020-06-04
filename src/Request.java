@@ -1,3 +1,4 @@
+import java.net.HttpURLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,6 +69,16 @@ public class Request {
             }
         }
     }
+
+    private void setHeaders(HttpURLConnection urlConnection) {
+        if(!headers.equals(""))
+            for(String s : headers.split(";"))
+            {
+                String[] h = s.split(":");
+                urlConnection.setRequestProperty(h[0],h[1]);
+            }
+    }
+
 
 
     public void setMethod(String method) {
