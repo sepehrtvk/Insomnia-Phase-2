@@ -1,6 +1,6 @@
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -89,6 +89,54 @@ public class Request {
             wr.close();
         }
     }
+    public void send() {
+        try
+        {
+            URL url = new URL(this.url);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod(method);
+            urlConnection.setDoOutput(true);
+            setHeaders(urlConnection);
+            setData(urlConnection);
+            responseCode = urlConnection.getResponseCode();
+            responseMessage = urlConnection.getResponseMessage();
+            System.out.println(responseCode + " " + responseMessage);
+
+            if(responseCode != 200) {
+
+                if(showHeaders)
+                    urlConnection.getHeaderFields().forEach((k,v) -> System.out.println(k+": " + v));
+            }
+            else {
+                if (showHeaders)
+                    urlConnection.getHeaderFields().forEach((k , v) -> System.out.println(k + ": " + v));
+                if (output.equals("")) {
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    String temp = bufferedReader.readLine();
+                    response = "";
+                    while (temp != null) {
+                        response += temp;
+                        temp = bufferedReader.readLine();
+                    }
+                    System.out.println(response);
+                } else {
+                    FileOutputStream file = new FileOutputStream(new File(output));
+                    InputStream inputStream = urlConnection.getInputStream();
+                    byte[] buffer = new byte[1024];
+                    int bufferLength;
+                    while ((bufferLength = inputStream.read(buffer)) > 0) {
+                        file.write(buffer , 0 , bufferLength);
+                    }
+                    file.close();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 
 
     public void setMethod(String method) {
