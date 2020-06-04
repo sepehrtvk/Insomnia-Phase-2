@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class Request {
 
@@ -105,11 +106,23 @@ public class Request {
             if(responseCode != 200) {
 
                 if(showHeaders)
-                    urlConnection.getHeaderFields().forEach((k,v) -> System.out.println(k+": " + v));
+                    urlConnection.getHeaderFields().forEach(new BiConsumer<String, List<String>>() {
+                        @Override
+                        public void accept(String k, List<String> v) {
+                            System.out.println(k + ": " + v);
+                        }
+                    });
             }
             else {
                 if (showHeaders)
-                    urlConnection.getHeaderFields().forEach((k , v) -> System.out.println(k + ": " + v));
+                    //urlConnection.getHeaderFields().forEach((k , v) -> System.out.println(k + ": " + v));
+                    urlConnection.getHeaderFields().forEach(new BiConsumer<String, List<String>>() {
+                        @Override
+                        public void accept(String k, List<String> v) {
+                            System.out.println(k + ": " + v);
+                        }
+                    });
+
                 if (output.equals("")) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String temp = bufferedReader.readLine();
