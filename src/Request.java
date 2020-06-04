@@ -1,3 +1,6 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +17,58 @@ public class Request {
     private int responseCode;
     private String responseMessage;
     private HashMap<String, List<String>> responseHeaders;
+
+    public Request(String[] args) {
+
+        url = args[0];
+
+        for(int i = 0;i < args.length;i++) {
+
+            String arg = args[i].toLowerCase();
+
+            if(arg.startsWith("-")) {
+
+                if(arg.equals("--method") || arg.equals("-m")) {
+
+                    setMethod(args[i+1]);
+                }
+
+                if(arg.equals("--data") || arg.equals("-d")) {
+
+                    data = args[i+1].replace("\"","");
+                }
+
+                if(arg.equals("--headers") || arg.equals("-h")) {
+
+                    headers = args[i+1].replace("\"","");
+                }
+
+                if(arg.equals("--output") || arg.equals("-o")) {
+
+                    if(args.length > i+1 && !args[i+1].startsWith("-")) {
+
+                        output = args[i+1];
+                    }
+                    else {
+
+                        DateFormat df = new SimpleDateFormat("ddMMHHmmss");
+                        Date date = new Date();
+                        output = "output_" + df.format(date);
+                    }
+                }
+                if(arg.contains("-i")) {
+
+                    showHeaders = true;
+                }
+
+                if(arg.equals("--json") || arg.equals("-j")) {
+
+                    json = args[i+1];
+                }
+            }
+        }
+    }
+
 
     public void setMethod(String method) {
         this.method = method.toUpperCase();
@@ -62,6 +117,12 @@ public class Request {
     public HashMap<String, List<String>> getResponseHeaders() {
         return responseHeaders;
     }
+
+
+
+
+
+
 
     @Override
     public String toString() {
