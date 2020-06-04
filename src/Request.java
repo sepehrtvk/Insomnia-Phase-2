@@ -90,9 +90,9 @@ public class Request {
             wr.close();
         }
     }
+
     public void send() {
-        try
-        {
+        try {
             URL url = new URL(this.url);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod(method);
@@ -103,32 +103,21 @@ public class Request {
             responseMessage = urlConnection.getResponseMessage();
             System.out.println(responseCode + " " + responseMessage);
 
-            if(responseCode != 200) {
+            if (responseCode != 200) {
 
-                if(showHeaders)
-                    urlConnection.getHeaderFields().forEach(new BiConsumer<String, List<String>>() {
-                        @Override
-                        public void accept(String k, List<String> v) {
-                            System.out.println(k + ": " + v);
-                        }
-                    });
-            }
-            else {
-                if (showHeaders)
-                    //urlConnection.getHeaderFields().forEach((k , v) -> System.out.println(k + ": " + v));
-                    urlConnection.getHeaderFields().forEach(new BiConsumer<String, List<String>>() {
-                        @Override
-                        public void accept(String k, List<String> v) {
-                            System.out.println(k + ": " + v);
-                        }
-                    });
-
+                if (showHeaders) {
+                    showHeaders(urlConnection);
+                }
+            } else {
+                if (showHeaders) {
+                    showHeaders(urlConnection);
+                }
                 if (output.equals("")) {
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String temp = bufferedReader.readLine();
                     response = "";
                     while (temp != null) {
-                        response += temp;
+                        response += temp + "\n";
                         temp = bufferedReader.readLine();
                     }
                     System.out.println(response);
@@ -138,18 +127,27 @@ public class Request {
                     byte[] buffer = new byte[1024];
                     int bufferLength;
                     while ((bufferLength = inputStream.read(buffer)) > 0) {
-                        file.write(buffer , 0 , bufferLength);
+                        file.write(buffer, 0, bufferLength);
                     }
                     file.close();
                 }
             }
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public void showHeaders(HttpURLConnection urlConnection){
+        int i = 0;
+        while (urlConnection.getHeaderField(i) != null) {
+            if (i != 0) {
+                System.out.print("\u001B[32m" + urlConnection.getHeaderFieldKey(i) + ": " + "\u001B[0m");
+            }
+            System.out.println(urlConnection.getHeaderField(i));
+            i++;
+        }
+        System.out.println();
 
+    }
 
 
     public void setMethod(String method) {
