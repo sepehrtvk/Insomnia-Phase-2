@@ -1,4 +1,7 @@
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,62 +26,69 @@ public class Request {
 
         url = args[0];
 
-        for(int i = 0;i < args.length;i++) {
+        for (int i = 0; i < args.length; i++) {
 
             String arg = args[i].toLowerCase();
 
-            if(arg.startsWith("-")) {
+            if (arg.startsWith("-")) {
 
-                if(arg.equals("--method") || arg.equals("-m")) {
+                if (arg.equals("--method") || arg.equals("-m")) {
 
-                    setMethod(args[i+1]);
+                    setMethod(args[i + 1]);
                 }
 
-                if(arg.equals("--data") || arg.equals("-d")) {
+                if (arg.equals("--data") || arg.equals("-d")) {
 
-                    data = args[i+1].replace("\"","");
+                    data = args[i + 1].replace("\"", "");
                 }
 
-                if(arg.equals("--headers") || arg.equals("-h")) {
+                if (arg.equals("--headers") || arg.equals("-h")) {
 
-                    headers = args[i+1].replace("\"","");
+                    headers = args[i + 1].replace("\"", "");
                 }
 
-                if(arg.equals("--output") || arg.equals("-o")) {
+                if (arg.equals("--output") || arg.equals("-o")) {
 
-                    if(args.length > i+1 && !args[i+1].startsWith("-")) {
+                    if (args.length > i + 1 && !args[i + 1].startsWith("-")) {
 
-                        output = args[i+1];
-                    }
-                    else {
+                        output = args[i + 1];
+                    } else {
 
                         DateFormat df = new SimpleDateFormat("ddMMHHmmss");
                         Date date = new Date();
                         output = "output_" + df.format(date);
                     }
                 }
-                if(arg.contains("-i")) {
+                if (arg.contains("-i")) {
 
                     showHeaders = true;
                 }
 
-                if(arg.equals("--json") || arg.equals("-j")) {
+                if (arg.equals("--json") || arg.equals("-j")) {
 
-                    json = args[i+1];
+                    json = args[i + 1];
                 }
             }
         }
     }
 
     private void setHeaders(HttpURLConnection urlConnection) {
-        if(!headers.equals(""))
-            for(String s : headers.split(";"))
-            {
+        if (!headers.equals(""))
+            for (String s : headers.split(";")) {
                 String[] h = s.split(":");
-                urlConnection.setRequestProperty(h[0],h[1]);
+                urlConnection.setRequestProperty(h[0], h[1]);
             }
     }
 
+    private void setData(HttpURLConnection urlConnection) throws IOException {
+        if (!data.equals("")) {
+            String boundary = System.currentTimeMillis() + "";
+            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+            DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+            wr.write(dataBytes);
+            wr.close();
+        }
+    }
 
 
     public void setMethod(String method) {
@@ -130,18 +140,13 @@ public class Request {
     }
 
 
-
-
-
-
-
     @Override
     public String toString() {
         return "url='" + url + '\'' +
                 ", method='" + method + '\'' +
                 ", data='" + data + '\'' +
-                (headers.equals("")?"":(", headers='" + headers + '\'')) +
-                (data.equals("")?"":(", data='" + data + '\''));
+                (headers.equals("") ? "" : (", headers='" + headers + '\'')) +
+                (data.equals("") ? "" : (", data='" + data + '\''));
     }
 
 
