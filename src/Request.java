@@ -63,5 +63,14 @@ public class Request {
         return responseHeaders;
     }
 
+    @Override
+    public String toString() {
+        return "url='" + url + '\'' +
+                ", method='" + method + '\'' +
+                ", data='" + data + '\'' +
+                (headers.equals("")?"":(", headers='" + headers + '\'')) +
+                (data.equals("")?"":(", data='" + data + '\''));
+    }
+
 
 }
