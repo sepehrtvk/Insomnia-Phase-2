@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -50,8 +52,35 @@ public class Main {
                     e.printStackTrace();
                 }
             }
-        }
+        } else {
 
+            Request request = new Request(args);
+
+            StringBuilder temp = new StringBuilder();
+
+            for (String arg : args) {
+                temp.append(arg).append(" ");
+            }
+
+            temp.deleteCharAt(temp.length() - 1);
+            String input = temp.toString();
+
+            if (input.contains("--save") || input.contains("-S")) {
+                File file = new File("commands.sav");
+
+                try {
+                    FileWriter fr = new FileWriter(file, true);
+                    input = input.replace(" --save", "");
+                    input = input.replace(" -S", "");
+                    fr.write(request.toString() + "\n");
+                    fr.write(input + "\n");
+                    fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            request.send();
+        }
     }
 }
 
