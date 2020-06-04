@@ -2,8 +2,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -13,16 +12,29 @@ public class Main {
         while (true) {
             String input = scanner.nextLine();
             String[] words = input.split(" ");
+            if(words[1].equals("-H")||words[1].equals("--headers")){
+                HashMap<String, String> headers = new HashMap<String, String>();
+                String header = words[2];
+                String[] inputs = header.split(":");
+                for (String str : inputs){
+                    String[] sss=str.split(";");
+                    for (String str2 : sss){
+                        System.out.println(str2);
+                    }
+                }
+            }
+
             if (words.length == 2 && words[0].equals("jurl") || words.length == 4 && words[3].equals("GET") || words.length == 3 && words[1].equals("-i")) {
                 try {
+                    HashMap<String, String> headers = new HashMap<String, String>();
                     if (words[1].equals("-i"))
-                        sendGET(words[2], true);
-                    else sendGET(words[1], false);
+                        sendGET(words[2], true,headers);
+                    else sendGET(words[1], false,headers);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if (words[2].equals("POST")) {
+            if (words.length > 2 && words[2].equals("POST")) {
                 try {
                     sendPOST(words[3]);
                 } catch (IOException e) {
@@ -33,12 +45,15 @@ public class Main {
         }
     }
 
-    private static void sendGET(String url, boolean showHeader) throws IOException {
+    private static void sendGET(String url, boolean showHeader,HashMap<String,String> headers) throws IOException {
         try {
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("User-Agent", "Mac_Catalina");
+            for (String key : headers.keySet()){
+                con.setRequestProperty(key,headers.get(key));
+            }
             if (con.getResponseCode() != 200) {
                 int i = 0;
                 while (con.getHeaderField(i) != null && showHeader) {
