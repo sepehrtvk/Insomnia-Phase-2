@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -92,6 +93,8 @@ public class Request {
 
     public void send() {
         try {
+            String p = "http://";
+            if(!url.contains(p)) url=p.concat(url);
             URL url = new URL(this.url);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod(method);
