@@ -1,13 +1,10 @@
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 public class Request {
 
@@ -17,11 +14,11 @@ public class Request {
     private String headers = "";
     private String output = "";
     private String json = "";
+    private boolean followRedirect = true;
     private boolean showHeaders = false;
     private String response = "";
     private int responseCode;
     private String responseMessage;
-    //private HashMap<String, List<String>> responseHeaders;
 
     public Request(String[] args) {
 
@@ -43,6 +40,10 @@ public class Request {
                     data = args[i + 1].replace("\"", "");
                 }
 
+                if (arg.contains("-f")) {
+                    followRedirect = false;
+                }
+
                 if (arg.equals("--headers") || arg.equals("-h")) {
 
                     headers = args[i + 1].replace("\"", "");
@@ -57,7 +58,7 @@ public class Request {
 
                         DateFormat df = new SimpleDateFormat("dd-MM-HH:mm:ss");
                         Date date = new Date();
-                        output = "output_" + df.format(date)+".txt";
+                        output = "output_" + df.format(date);
                     }
                 }
                 if (arg.contains("-i")) {
@@ -83,7 +84,6 @@ public class Request {
 
     private void setData(HttpURLConnection urlConnection) throws IOException {
         if (!data.equals("")) {
-            String boundary = System.currentTimeMillis() + "";
             byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
             DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
             wr.write(dataBytes);
@@ -94,11 +94,12 @@ public class Request {
     public void send() {
         try {
             String p = "http://";
-            if(!url.contains(p)) url=p.concat(url);
+            if (!url.contains(p)) url = p.concat(url);
             URL url = new URL(this.url);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod(method);
             urlConnection.setDoOutput(true);
+            urlConnection.setInstanceFollowRedirects(followRedirect);
             setHeaders(urlConnection);
             setData(urlConnection);
             responseCode = urlConnection.getResponseCode();
@@ -138,7 +139,8 @@ public class Request {
             e.printStackTrace();
         }
     }
-    public void showHeaders(HttpURLConnection urlConnection){
+
+    public void showHeaders(HttpURLConnection urlConnection) {
         int i = 0;
         while (urlConnection.getHeaderField(i) != null) {
             if (i != 0) {
@@ -155,47 +157,6 @@ public class Request {
     public void setMethod(String method) {
         this.method = method.toUpperCase();
     }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public String getHeaders() {
-        return headers;
-    }
-
-    public String getOutput() {
-        return output;
-    }
-
-    public String getJson() {
-        return json;
-    }
-
-    public boolean isShowHeaders() {
-        return showHeaders;
-    }
-
-    public String getResponse() {
-        return response;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
 
     @Override
     public String toString() {

@@ -27,6 +27,7 @@ public class Main {
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
+                    System.out.println("No request saved.");
                 }
             }
 
