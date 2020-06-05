@@ -119,7 +119,7 @@ public class Request {
             urlConnection.setInstanceFollowRedirects(followRedirect);
             setHeaders(urlConnection);
             setData(urlConnection);
-            //setFile(urlConnection);
+            setFile(urlConnection);
             responseCode = urlConnection.getResponseCode();
             responseMessage = urlConnection.getResponseMessage();
             System.out.println(responseCode + " " + responseMessage);
@@ -171,23 +171,23 @@ public class Request {
         }
     }
 
-//    private void setFile(HttpURLConnection urlConnection) throws IOException {
-//        if(!uploadingFile.equals(""))
-//        {
-//            byte[] buffer = new byte[1024];
-//            int bufferLength;
-//            File file = new File(uploadingFile);
-//            urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
-//            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(urlConnection.getOutputStream());
-//            BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
-//            while ((bufferLength = fileInputStream.read(buffer)) > 0) {
-//                bufferedOutputStream.write(buffer, 0, bufferLength);
-//            }
-//            bufferedOutputStream.write(fileInputStream.read());
-//            bufferedOutputStream.flush();
-//            bufferedOutputStream.close();
-//        }
-//    }
+    private void setFile(HttpURLConnection urlConnection) throws IOException {
+        if(!uploadingFile.equals(""))
+        {
+            byte[] buffer = new byte[1024];
+            int bufferLength;
+            File file = new File(uploadingFile);
+            urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+            BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
+            while ((bufferLength = fileInputStream.read(buffer)) > 0) {
+                bufferedOutputStream.write(buffer, 0, bufferLength);
+            }
+            bufferedOutputStream.write(fileInputStream.read());
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
+        }
+    }
 
     public void showHeaders(HttpURLConnection urlConnection) {
         int i = 0;
