@@ -41,17 +41,23 @@ public class Main {
                     }
                 }
             } else {
+                int counter=0;
                 for (String arg : args) {
                     if (arg.contains("fire")) continue;
                     try {
+
                         Scanner sc = new Scanner(new File("Requests/" + args[1]));
-                        for (int i = 1; i < Integer.parseInt(args[2]); i++) {
+                        for (int i = 1; i < Integer.parseInt(args[2+counter]); i++) {
                             sc.nextLine();
                             sc.nextLine();
                         }
                         sc.nextLine();
                         Request request = new Request(sc.nextLine().split("\\s+"));
                         request.send();
+                        counter++;
+                        if(counter+2>=args.length)break;
+                        System.out.println();
+                        System.out.println();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
