@@ -11,9 +11,9 @@ public class Main {
             String input = scanner.nextLine();
             args = input.split("\\s+");
         }
-        if (args[0].toLowerCase().equals("-list") || args[0].toLowerCase().equals("-fire") || args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
+        if (args[0].toLowerCase().contains("list") || args[0].toLowerCase().contains("fire") || args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
 
-            if (args[0].toLowerCase().equals("-list")) {
+            if (args[0].toLowerCase().contains("list")) {
 
                 try {
 
@@ -30,24 +30,26 @@ public class Main {
                     System.out.println("No request saved.");
                 }
             }
+            else
+                {
 
-            if (args[0].toLowerCase().equals("-fire")) {
 
-                int n = Integer.parseInt(args[1]);
-
-                try {
-
-                    Scanner sc = new Scanner(new File("commands.sav"));
-
-                    for (int i = 1; i < n; i++) {
+                for(String arg : args)
+                {
+                    if(arg.contains("fire"))continue;
+                    try {
+                        int n = Integer.parseInt(arg);
+                        Scanner sc = new Scanner(new File("commands.sav"));
+                        for (int i = 1; i < n; i++) {
+                            sc.nextLine();
+                            sc.nextLine();
+                        }
                         sc.nextLine();
-                        sc.nextLine();
+                        Request request = new Request(sc.nextLine().split("\\s+"));
+                        request.send();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
                     }
-                    sc.nextLine();
-                    Request request = new Request(sc.nextLine().split("\\s+"));
-                    request.send();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
                 }
             }
             if (args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {

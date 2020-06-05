@@ -19,6 +19,8 @@ public class Request {
     private String response = "";
     private int responseCode;
     private String responseMessage;
+    private long time;
+    private String uploadingFile;
 
     public Request(String[] args) {
 
@@ -40,6 +42,11 @@ public class Request {
                     data = args[i + 1].replace("\"", "");
                 }
 
+                if (arg.equals("--upload") || arg.equals("-u")) {
+
+                    uploadingFile = args[i + 1].replace("\"", "");
+                }
+
                 if (arg.contains("-f")) {
                     followRedirect = false;
                 }
@@ -56,7 +63,7 @@ public class Request {
                         output = args[i + 1];
                     } else {
 
-                        DateFormat df = new SimpleDateFormat("dd-MM-HH:mm:ss");
+                        DateFormat df = new SimpleDateFormat("ddMMHHmmss");
                         Date date = new Date();
                         output = "output_" + df.format(date);
                     }
@@ -83,16 +90,26 @@ public class Request {
     }
 
     private void setData(HttpURLConnection urlConnection) throws IOException {
-        if (!data.equals("")) {
-            byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
-            DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-            wr.write(dataBytes);
-            wr.close();
+        if(!data.equals(""))
+        {
+            byte[] postData       = data.getBytes( StandardCharsets.UTF_8 );
+            int    postDataLength = postData.length;
+            urlConnection.setDoOutput( true );
+            urlConnection.setInstanceFollowRedirects( false );
+            urlConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
+            urlConnection.setRequestProperty( "charset", "utf-8");
+            urlConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
+            urlConnection.setUseCaches( false );
+            try( DataOutputStream wr = new DataOutputStream( urlConnection.getOutputStream())) {
+                wr.write( postData );
+            }
         }
+
     }
 
     public void send() {
         try {
+            long beforeRequestTime = System.currentTimeMillis();
             String p = "http://";
             if (!url.contains(p)) url = p.concat(url);
             URL url = new URL(this.url);
@@ -102,6 +119,7 @@ public class Request {
             urlConnection.setInstanceFollowRedirects(followRedirect);
             setHeaders(urlConnection);
             setData(urlConnection);
+            //setFile(urlConnection);
             responseCode = urlConnection.getResponseCode();
             responseMessage = urlConnection.getResponseMessage();
             System.out.println(responseCode + " " + responseMessage);
@@ -125,6 +143,17 @@ public class Request {
                     }
                     System.out.println(response);
                 } else {
+                    if(!output.contains("."))
+                    {
+                        if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("png"))
+                        output += ".png";
+                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("html"))
+                            output += ".html";
+                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("jpg"))
+                            output += ".jpg";
+                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("txt"))
+                            output += ".txt";
+                    }
                     FileOutputStream file = new FileOutputStream(new File(output));
                     InputStream inputStream = urlConnection.getInputStream();
                     byte[] buffer = new byte[1024];
@@ -135,10 +164,30 @@ public class Request {
                     file.close();
                 }
             }
+            time = System.currentTimeMillis() - beforeRequestTime;
+            System.out.println("Total time: " + time/1000 + "." + time%1000+"S");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+//    private void setFile(HttpURLConnection urlConnection) throws IOException {
+//        if(!uploadingFile.equals(""))
+//        {
+//            byte[] buffer = new byte[1024];
+//            int bufferLength;
+//            File file = new File(uploadingFile);
+//            urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
+//            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(urlConnection.getOutputStream());
+//            BufferedInputStream fileInputStream = new BufferedInputStream(new FileInputStream(file));
+//            while ((bufferLength = fileInputStream.read(buffer)) > 0) {
+//                bufferedOutputStream.write(buffer, 0, bufferLength);
+//            }
+//            bufferedOutputStream.write(fileInputStream.read());
+//            bufferedOutputStream.flush();
+//            bufferedOutputStream.close();
+//        }
+//    }
 
     public void showHeaders(HttpURLConnection urlConnection) {
         int i = 0;
