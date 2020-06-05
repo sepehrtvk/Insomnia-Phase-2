@@ -96,6 +96,7 @@ public class Main {
                     if (args[i].equals("-create")) {
                         file = new File("Requests/" + args[i + 1]);
                         FileWriter fr;
+                        System.out.println("List "+args[i + 1]+" created.");
                         try {
                             fr = new FileWriter(file);
                             fr.write("");
