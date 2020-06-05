@@ -7,11 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.function.BiConsumer;
 
 public class Request {
 
-    private String url = "";
+    private String url;
     private String method = "GET";
     private String data = "";
     private String headers = "";
@@ -21,7 +20,7 @@ public class Request {
     private String response = "";
     private int responseCode;
     private String responseMessage;
-    private HashMap<String, List<String>> responseHeaders;
+    //private HashMap<String, List<String>> responseHeaders;
 
     public Request(String[] args) {
 
@@ -55,9 +54,9 @@ public class Request {
                         output = args[i + 1];
                     } else {
 
-                        DateFormat df = new SimpleDateFormat("ddMMHHmmss");
+                        DateFormat df = new SimpleDateFormat("dd-MM-HH:mm:ss");
                         Date date = new Date();
-                        output = "output_" + df.format(date);
+                        output = "output_" + df.format(date)+".txt";
                     }
                 }
                 if (arg.contains("-i")) {
@@ -192,10 +191,6 @@ public class Request {
 
     public String getResponseMessage() {
         return responseMessage;
-    }
-
-    public HashMap<String, List<String>> getResponseHeaders() {
-        return responseHeaders;
     }
 
 

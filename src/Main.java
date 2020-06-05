@@ -1,7 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -14,7 +11,7 @@ public class Main {
             String input = scanner.nextLine();
             args = input.split("\\s+");
         }
-        if (args[0].toLowerCase().equals("-list") || args[0].toLowerCase().equals("-fire")) {
+        if (args[0].toLowerCase().equals("-list") || args[0].toLowerCase().equals("-fire") || args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
 
             if (args[0].toLowerCase().equals("-list")) {
 
@@ -40,8 +37,8 @@ public class Main {
                 try {
 
                     Scanner sc = new Scanner(new File("commands.sav"));
-                    for (int i = 1; i < n; i++) {
 
+                    for (int i = 1; i < n; i++) {
                         sc.nextLine();
                         sc.nextLine();
                     }
@@ -49,6 +46,26 @@ public class Main {
                     Request request = new Request(sc.nextLine().split("\\s+"));
                     request.send();
                 } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader("help.txt"));
+
+                    String line;
+                    StringBuffer sb = new StringBuffer();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        sb.append(line);
+                        sb.append("\n");
+                    }
+                    System.out.println("\u001B[34m"+sb.toString()+"\u001B[0m");
+                    bufferedReader.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("help.txt file is not exist.");
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
