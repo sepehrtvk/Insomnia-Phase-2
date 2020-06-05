@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Main {
 
+
     public static void main(String[] args) {
 
         if (args.length == 0) {
@@ -15,32 +16,36 @@ public class Main {
 
             if (args[0].toLowerCase().contains("list")) {
 
-                try {
-
-                    Scanner sc = new Scanner(new File("commands.sav"));
-                    int i = 1;
-                    while (sc.hasNext()) {
-
-                        System.out.println(i + ": " + sc.nextLine());
-                        i++;
-                        sc.nextLine();
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println("No request saved.");
-                }
-            }
-            else
-                {
-
-
-                for(String arg : args)
-                {
-                    if(arg.contains("fire"))continue;
+                if(args.length==1){
+                    File folder = new File("Requests");
+                    File[] listOfFiles = folder.listFiles();
+                    if (listOfFiles != null) {
+                        for (File file : listOfFiles) {
+                            if (file.isFile()) {
+                                System.out.println(file.getName());
+                            }
+                        }
+                    }else System.out.println("No list found.");
+                }else {
                     try {
-                        int n = Integer.parseInt(arg);
-                        Scanner sc = new Scanner(new File("commands.sav"));
-                        for (int i = 1; i < n; i++) {
+                        Scanner sc = new Scanner(new File("Requests/"+args[1]));
+                        int i = 1;
+                        while (sc.hasNext()) {
+                            System.out.println(i + ": " + sc.nextLine());
+                            i++;
+                            sc.nextLine();
+                        }
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else {
+                for (String arg : args) {
+                    if (arg.contains("fire")) continue;
+                    try {
+                        Scanner sc = new Scanner(new File("Requests/"+args[1]));
+                        for (int i = 1; i < Integer.parseInt(args[2]); i++) {
                             sc.nextLine();
                             sc.nextLine();
                         }
@@ -63,7 +68,7 @@ public class Main {
                         sb.append(line);
                         sb.append("\n");
                     }
-                    System.out.println("\u001B[34m"+sb.toString()+"\u001B[0m");
+                    System.out.println("\u001B[34m" + sb.toString() + "\u001B[0m");
                     bufferedReader.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -87,7 +92,14 @@ public class Main {
 
             if (input.contains("--save") || input.contains("-S")) {
                 File file = new File("commands.sav");
+                for (int i = 0; i < args.length; i++) {
+                    if (args[i].equals("--save") || args[i].equals("-S")) {
+                        file = new File("Requests/"+args[i + 1]);
 
+                    }
+                }
+
+                //File file = new File("commands.sav");
                 try {
                     FileWriter fr = new FileWriter(file, true);
                     input = input.replace(" --save", "");

@@ -18,9 +18,9 @@ public class Request {
     private boolean showHeaders = false;
     private String response = "";
     private int responseCode;
-    private String responseMessage;
+    private String responseMessage = "";
     private long time;
-    private String uploadingFile;
+    private String uploadingFile = "";
 
     public Request(String[] args) {
 
@@ -90,21 +90,19 @@ public class Request {
     }
 
     private void setData(HttpURLConnection urlConnection) throws IOException {
-        if(!data.equals(""))
-        {
-            byte[] postData       = data.getBytes( StandardCharsets.UTF_8 );
-            int    postDataLength = postData.length;
-            urlConnection.setDoOutput( true );
-            urlConnection.setInstanceFollowRedirects( false );
-            urlConnection.setRequestProperty( "Content-Type", "application/x-www-form-urlencoded");
-            urlConnection.setRequestProperty( "charset", "utf-8");
-            urlConnection.setRequestProperty( "Content-Length", Integer.toString( postDataLength ));
-            urlConnection.setUseCaches( false );
-            try( DataOutputStream wr = new DataOutputStream( urlConnection.getOutputStream())) {
-                wr.write( postData );
+        if (!data.equals("")) {
+            byte[] postData = data.getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            urlConnection.setDoOutput(true);
+            urlConnection.setInstanceFollowRedirects(false);
+            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            urlConnection.setRequestProperty("charset", "utf-8");
+            urlConnection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            urlConnection.setUseCaches(false);
+            try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
+                wr.write(postData);
             }
         }
-
     }
 
     public void send() {
@@ -143,15 +141,14 @@ public class Request {
                     }
                     System.out.println(response);
                 } else {
-                    if(!output.contains("."))
-                    {
-                        if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("png"))
-                        output += ".png";
-                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("html"))
+                    if (!output.contains(".")) {
+                        if (urlConnection.getHeaderField("Content-Type").toLowerCase().contains("png"))
+                            output += ".png";
+                        else if (urlConnection.getHeaderField("Content-Type").toLowerCase().contains("html"))
                             output += ".html";
-                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("jpg"))
+                        else if (urlConnection.getHeaderField("Content-Type").toLowerCase().contains("jpg"))
                             output += ".jpg";
-                        else if(urlConnection.getHeaderField("Content-Type").toLowerCase().contains("txt"))
+                        else if (urlConnection.getHeaderField("Content-Type").toLowerCase().contains("txt"))
                             output += ".txt";
                     }
                     FileOutputStream file = new FileOutputStream(new File(output));
@@ -165,15 +162,14 @@ public class Request {
                 }
             }
             time = System.currentTimeMillis() - beforeRequestTime;
-            System.out.println("Total time: " + time/1000 + "." + time%1000+"S");
+            System.out.println("Total time: " + time / 1000 + "." + time % 1000 + "S");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     private void setFile(HttpURLConnection urlConnection) throws IOException {
-        if(!uploadingFile.equals(""))
-        {
+        if (!uploadingFile.equals("")) {
             byte[] buffer = new byte[1024];
             int bufferLength;
             File file = new File(uploadingFile);
@@ -204,6 +200,7 @@ public class Request {
 
 
     public void setMethod(String method) {
+
         this.method = method.toUpperCase();
     }
 
@@ -211,10 +208,7 @@ public class Request {
     public String toString() {
         return "url='" + url + '\'' +
                 ", method='" + method + '\'' +
-                ", data='" + data + '\'' +
                 (headers.equals("") ? "" : (", headers='" + headers + '\'')) +
                 (data.equals("") ? "" : (", data='" + data + '\''));
     }
-
-
 }
