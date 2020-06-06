@@ -32,7 +32,7 @@ public class Main {
                     File[] listOfFiles = folder.listFiles();
                     if (listOfFiles != null) {
                         for (File file : listOfFiles) {
-                            if (file.isFile()) {
+                            if (file.isFile()&&!file.getName().equals(".DS_Store")) {
                                 System.out.println(file.getName());
                             }
                         }

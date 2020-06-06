@@ -164,6 +164,28 @@ public class Request {
     }
 
     /**
+     * this setJson method sets the data Json type to send a request.
+     *
+     * @param urlConnection the connection want to sent json request.
+     * @throws IOException if cannot find the file.
+     */
+    private void setJson(HttpURLConnection urlConnection) throws IOException {
+        if (!json.equals("")) {
+            byte[] postData = data.getBytes(StandardCharsets.UTF_8);
+            int postDataLength = postData.length;
+            urlConnection.setDoOutput(true);
+            urlConnection.setInstanceFollowRedirects(false);
+            urlConnection.setRequestProperty("Content-Type", "application/json; utf-8");
+            urlConnection.setRequestProperty("charset", "utf-8");
+            urlConnection.setRequestProperty("Content-Length", Integer.toString(postDataLength));
+            urlConnection.setUseCaches(false);
+            try (DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream())) {
+                wr.write(postData);
+            }
+        }
+    }
+
+    /**
      * send method sends a request with the url and headers and get the response
      * from the server.
      */
@@ -181,6 +203,7 @@ public class Request {
             setHeaders(urlConnection);
             setData(urlConnection);
             setFile(urlConnection);
+            setJson(urlConnection);
             responseCode = urlConnection.getResponseCode();
             responseMessage = urlConnection.getResponseMessage();
             System.out.println(responseCode + " " + responseMessage);
