@@ -127,7 +127,6 @@ public class Request {
             }
         }
     }
-
     /**
      * this setHeaders method sets headers for each request with the given connection.
      *
