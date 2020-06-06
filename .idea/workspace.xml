@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="18123d67-f8d7-464e-ad77-4dd2767c1f76" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/jurl/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/jurl/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Request.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Request.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2808">
-              <caret line="117" column="21" lean-forward="true" selection-start-line="117" selection-start-column="21" selection-end-line="117" selection-end-column="21" />
+            <state relative-caret-position="693">
+              <caret line="156" column="33" selection-start-line="156" selection-start-column="33" selection-end-line="156" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -30,11 +30,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Request.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="120" column="41" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="41" />
+            <state relative-caret-position="184">
+              <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,6 +55,7 @@
     <findStrings>
       <find>text/html</find>
       <find>Accept</find>
+      <find>-S</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -63,8 +64,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Request.java" />
         <option value="$PROJECT_DIR$/src/Main.java" />
+        <option value="$PROJECT_DIR$/src/Request.java" />
       </list>
     </option>
   </component>
@@ -162,7 +163,8 @@
       <workItem from="1591360492745" duration="4989000" />
       <workItem from="1591372029274" duration="1838000" />
       <workItem from="1591374714352" duration="2168000" />
-      <workItem from="1591382087171" duration="7957000" />
+      <workItem from="1591382087171" duration="9477000" />
+      <workItem from="1591441202233" duration="3432000" />
     </task>
     <task id="LOCAL-00001" summary="Add get method.">
       <created>1590846074516</created>
@@ -311,17 +313,38 @@
       <option name="project" value="LOCAL" />
       <updated>1591390347779</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Fix group names bug.">
+      <created>1591391019498</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1591391019498</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Add group list names.">
+      <created>1591391199619</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1591391199619</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Fix fire request bug.">
+      <created>1591392018338</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1591392018338</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42943000" />
+    <option name="totallyTimeSpent" value="47895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.15628816" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4982699" visible="true" weight="0.15811966" />
       <window_info id="Structure" order="1" sideWeight="0.5017301" side_tool="true" weight="0.15079366" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -330,7 +353,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32959184" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4993895" visible="true" weight="0.41020408" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4993895" visible="true" weight="0.41020408" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -410,7 +433,10 @@
     <MESSAGE value="Fix PATCH method getting input." />
     <MESSAGE value="Add setFile to upload binary file." />
     <MESSAGE value="Add group requests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add group requests." />
+    <MESSAGE value="Fix group names bug." />
+    <MESSAGE value="Add group list names." />
+    <MESSAGE value="Fix fire request bug." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix fire request bug." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/jurl$Main.ic" NAME="Main Coverage Results" MODIFIED="1590951243482" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
@@ -458,7 +484,6 @@
     <entry file="file://$PROJECT_DIR$/output_05-06-17:17:03.txt" />
     <entry file="file://$PROJECT_DIR$/my" />
     <entry file="file://$PROJECT_DIR$/output_05-06-19:29:21.txt" />
-    <entry file="file://$PROJECT_DIR$/google.html" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk-13.jdk/Contents/Home/lib/src.zip!/java.base/java/net/HttpURLConnection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
@@ -472,58 +497,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/output_05-06-20:35:21.txt" />
     <entry file="file://$PROJECT_DIR$/aks.png" />
-    <entry file="file://$PROJECT_DIR$/this.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output_0606000127.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output_0606000227.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/commands.sav">
+    <entry file="file://$PROJECT_DIR$/this.txt" />
+    <entry file="file://$PROJECT_DIR$/output_0606000127.html" />
+    <entry file="file://$PROJECT_DIR$/output_0606000227.png" />
+    <entry file="file://$PROJECT_DIR$/commands.sav" />
+    <entry file="file://$PROJECT_DIR$/name" />
+    <entry file="file://$PROJECT_DIR$/groupsepehr.txt" />
+    <entry file="file://$PROJECT_DIR$/sepehr.txt" />
+    <entry file="file://$PROJECT_DIR$/Requests/mehdi" />
+    <entry file="file://$PROJECT_DIR$/Requests/ali" />
+    <entry file="file://$PROJECT_DIR$/Requests/hadiFavorites" />
+    <entry file="file://$PROJECT_DIR$/google.html" />
+    <entry file="file://$PROJECT_DIR$/Requests/sepehr" />
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/name">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/groupsepehr.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sepehr.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Requests/mehdi">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Request.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="120" column="41" selection-start-line="120" selection-start-column="41" selection-end-line="120" selection-end-column="41" />
+        <state relative-caret-position="693">
+          <caret line="156" column="33" selection-start-line="156" selection-start-column="33" selection-end-line="156" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Requests/sepehr">
+    <entry file="file://$PROJECT_DIR$/src/Request.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Requests/ali">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2808">
-          <caret line="117" column="21" lean-forward="true" selection-start-line="117" selection-start-column="21" selection-end-line="117" selection-end-column="21" />
+        <state relative-caret-position="184">
+          <caret line="8" column="3" selection-start-line="8" selection-start-column="3" selection-end-line="8" selection-end-column="3" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
