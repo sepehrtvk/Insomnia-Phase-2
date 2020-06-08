@@ -24,6 +24,31 @@ public class Main {
         //list , fire and help commands.
         if (args[0].toLowerCase().contains("list") || args[0].toLowerCase().contains("fire") || args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
 
+            //-h or --help commands to see the help manual.
+            if (args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
+                try {
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader("help.txt"));
+
+                    String line;
+                    StringBuffer sb = new StringBuffer();
+
+                    while ((line = bufferedReader.readLine()) != null) {
+                        sb.append(line);
+                        sb.append("\n");
+                    }
+
+                    System.out.println("\u001B[34m" + sb.toString() + "\u001B[0m");
+                    bufferedReader.close();
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("help.txt file is not exist.");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
             //list command to show request groups.
             if (args[0].toLowerCase().contains("list")) {
 
@@ -32,7 +57,7 @@ public class Main {
                     File[] listOfFiles = folder.listFiles();
                     if (listOfFiles != null) {
                         for (File file : listOfFiles) {
-                            if (file.isFile()&&!file.getName().equals(".DS_Store")) {
+                            if (file.isFile() && !file.getName().equals(".DS_Store")) {
                                 System.out.println(file.getName());
                             }
                         }
@@ -56,46 +81,24 @@ public class Main {
                 int counter = 0;
                 for (String arg : args) {
                     if (arg.contains("fire")) continue;
-                    try {
-
-                        Scanner sc = new Scanner(new File("Requests/" + args[1]));
-                        for (int i = 1; i < Integer.parseInt(args[2 + counter]); i++) {
+                    if (args.length != 1) {
+                        try {
+                            Scanner sc = new Scanner(new File("Requests/" + args[1]));
+                            for (int i = 1; i < Integer.parseInt(args[2 + counter]); i++) {
+                                sc.nextLine();
+                                sc.nextLine();
+                            }
                             sc.nextLine();
-                            sc.nextLine();
+                            Request request = new Request(sc.nextLine().split("\\s+"));
+                            request.send();
+                            counter++;
+                            if (counter + 2 >= args.length) break;
+                            System.out.println();
+                            System.out.println();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
                         }
-                        sc.nextLine();
-                        Request request = new Request(sc.nextLine().split("\\s+"));
-                        request.send();
-                        counter++;
-                        if (counter + 2 >= args.length) break;
-                        System.out.println();
-                        System.out.println();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
                     }
-                }
-            }
-            //-h or --help commands to see the help manual.
-            if (args[0].toLowerCase().equals("-h") || args[0].toLowerCase().equals("--help")) {
-                try {
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader("help.txt"));
-
-                    String line;
-                    StringBuffer sb = new StringBuffer();
-
-                    while ((line = bufferedReader.readLine()) != null) {
-                        sb.append(line);
-                        sb.append("\n");
-                    }
-
-                    System.out.println("\u001B[34m" + sb.toString() + "\u001B[0m");
-                    bufferedReader.close();
-
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println("help.txt file is not exist.");
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         } else {
